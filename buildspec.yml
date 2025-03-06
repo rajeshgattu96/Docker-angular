@@ -1,0 +1,26 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+
+    commands:
+      - npm install -g @angular/cli@9.0.6
+
+  pre_build:
+    commands:
+      - npm install
+
+  build:
+    commands:
+      - ng build --prod
+
+  # post_build:
+  #   commands:
+  #     - aws s3 cp dist/my-angular-project s3://b10-code-pipeline-website-prod-bucket --recursive
+
+artifacts:
+  base-directory: "dist/my-angular-project"
+  files:
+    - "**/*"
