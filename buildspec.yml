@@ -16,11 +16,11 @@ phases:
     commands:
       - ng build --prod
 
-  # post_build:
-  #   commands:
-  #     - aws s3 cp dist/my-angular-project s3://b10-code-pipeline-website-prod-bucket --recursive
+  post_build:
+    commands:
+       - aws s3 cp dist/my-angular-project s3://b10-code-pipeline-website-prod-bucket --recursive
 
-artifacts:
-  base-directory: "dist/my-angular-project"
-  files:
-    - "**/*"
+#artifacts:
+  #base-directory: "dist/my-angular-project"
+  #files:
+   # - "**/*"
