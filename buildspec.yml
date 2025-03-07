@@ -20,7 +20,7 @@ phases:
     #commands:
       # - aws s3 cp dist/my-angular-project s3://angularprojectbuild1 --recursive
 
-  artifacts:
-   files:
-    - "dist/my-angular-project/**/*"
-    - appspec.yml
+artifacts:
+  files:
+   - "dist/my-angular-project/**/*"
+   - appspec.yml
