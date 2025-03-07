@@ -16,11 +16,11 @@ phases:
     commands:
       - ng build --prod
 
-  post_build:
-    commands:
-       - aws s3 cp dist/my-angular-project s3://angularprojectbuild1 --recursive
+  #post_build:
+    #commands:
+      # - aws s3 cp dist/my-angular-project s3://angularprojectbuild1 --recursive
 
-#artifacts:
-  #base-directory: "dist/my-angular-project"
-  #files:
-   # - "**/*"
+  artifacts:
+   files:
+    - "dist/my-angular-project/**/*"
+    - appspec.yml
