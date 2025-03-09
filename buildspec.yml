@@ -1,22 +1,26 @@
 version: 0.2
 
-env:
-  parameter-store:
-    DOCKERHUB_USER: /docker/username
-  secrets-manager:
-    DOCKERHUB_TOKEN: docker_token:token
+#env:
+ #parameter-store:
+   #DOCKERHUB_USER: /docker/username
+ #secrets-manager:
+   #DOCKERHUB_TOKEN: docker_token:token
 
 phases:
  pre_build:
   commands:
-   - echo ${DOCKERHUB_TOKEN} | docker login -u ${DOCKERHUB_USER} --password-stdin
+  #- echo ${DOCKERHUB_TOKEN} | docker login -u ${DOCKERHUB_USER} --password-stdin
+   - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 423623824389.dkr.ecr.ap-south-1.amazonaws.com
 
  build:
   commands:
-   - docker build -t my-angular-app:latest .
+  #- docker build -t my-angular-app:latest .
+   - docker build -t angularrepo .
 
 
  post_build:
   commands:
-   - docker tag my-angular-app:latest ${DOCKERHUB_USER}/angular-docker-repo-b11:${CODEBUILD_BUILD_NUMBER}
-   - docker push ${DOCKERHUB_USER}/angular-docker-repo-b11:${CODEBUILD_BUILD_NUMBER}
+  #- docker tag my-angular-app:latest ${DOCKERHUB_USER}/angular-docker-repo-b11:${CODEBUILD_BUILD_NUMBER}
+  #- docker push ${DOCKERHUB_USER}/angular-docker-repo-b11:${CODEBUILD_BUILD_NUMBER}
+   - docker tag angularrepo:latest 423623824389.dkr.ecr.ap-south-1.amazonaws.com/angularrepo:${CODEBUILD_BUILD_NUMBER}
+   - docker push 423623824389.dkr.ecr.ap-south-1.amazonaws.com/angularrepo:${CODEBUILD_BUILD_NUMBER}
