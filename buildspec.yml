@@ -24,3 +24,9 @@ phases:
   #- docker push ${DOCKERHUB_USER}/angular-docker-repo-b11:${CODEBUILD_BUILD_NUMBER}
    - docker tag angularrepo:latest 423623824389.dkr.ecr.ap-south-1.amazonaws.com/angularrepo:${CODEBUILD_BUILD_NUMBER}
    - docker push 423623824389.dkr.ecr.ap-south-1.amazonaws.com/angularrepo:${CODEBUILD_BUILD_NUMBER}
+   - printf '[{"name":"angular11","imageUri":"%s"}]' 423623824389.dkr.ecr.ap-south-1.amazonaws.com/angularrepo:${CODEBUILD_BUILD_NUMBER} > UpdatedTaskDefinition.json
+
+
+artifacts:
+ files:
+  - UpdatedTaskDefinition.json
