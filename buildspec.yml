@@ -1,26 +1,22 @@
 version: 0.2
 
+env:
+  parameter-store:
+    DOCKERHUB_USER: /docker/username
+  secrets-manager:
+    DOCKERHUB_TOKEN: docker_token:token
+
 phases:
-  install:
-    runtime-versions:
-      nodejs: 12
+ pre_build:
+  commands:
+   - echo ${DOCKERHUB_TOKEN} | docker login -u ${DOCKERHUB_USER} --password-stdin
 
-    commands:
-      - npm install -g @angular/cli@9.0.6
+ build:
+  commands:
+   - docker build -t my-angular-app:latest .
 
-  pre_build:
-    commands:
-      - npm install
 
-  build:
-    commands:
-      - ng build --prod
-
-  #post_build:
-    #commands:
-      # - aws s3 cp dist/my-angular-project s3://angularprojectbuild1 --recursive
-
-artifacts:
-  files:
-   - "dist/my-angular-project/**/*"
-   - appspec.yml
+ post_build:
+  commands:
+   - docker tag my-angular-app:latest ${DOCKERHUB_USER}/angular-docker-repo-b11:latest
+   - docker push ${DOCKERHUB_USER}/angular-docker-repo-b11:latest
